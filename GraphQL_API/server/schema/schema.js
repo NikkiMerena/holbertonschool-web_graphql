@@ -1,5 +1,4 @@
 const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLSchema } = require('graphql');
-const _ = require('lodash');
 
 // Dummie data 
 // Create an array of tasks
@@ -21,12 +20,12 @@ const _ = require('lodash');
 // Define a TaskType
 const TaskType = new GraphQLObjectType({
   name: 'Task',
-  fields: {
+  fields: () => ({
     id: { type: GraphQLString },
     title: { type: GraphQLString },
     weight: { type: GraphQLInt },
     description: { type: GraphQLString },
-  },
+  })
 });
 
 // Define the RootQueryType
