@@ -1,0 +1,23 @@
+{
+  "name": "graphql_api",
+  "version": "1.0.0",
+  "description": "## Overview",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-boost": "^0.4.9",
+    "express": "^4.18.2",
+    "express-graphql": "^0.12.0",
+    "graphql": "^14.3.1",
+    "lodash": "^4.17.21",
+    "react-apollo": "^3.1.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
