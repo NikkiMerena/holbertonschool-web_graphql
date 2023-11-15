@@ -54,7 +54,7 @@ const ProjectType = new GraphQLObjectType({
     tasks: {
       type: new GraphQLList(TaskType),
       resolve(parent, args) {
-      return _.find(type, { id: args.id });
+      return tasks.filter(task => task.projectId === parent.id);
       }
     }
   })
@@ -64,19 +64,16 @@ const ProjectType = new GraphQLObjectType({
 const RootQueryType = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
-    task: {
-      type: TaskType,
-      args: { id: { type: GraphQLID } },
+    tasks: {
+      type: new GraphQLList(TaskType),
       resolve(parent, args) {
-        return _.find(tasks, { id: args.id });
+        return tasks
       },
     },
-    project: {
-        type: ProjectType,
-        args: { id: { type: GraphQLID } },
+    projects: {
+        type: new GraphQLList(ProjectType),
       resolve(parent, args) {
-        // logic to find a project by id
-        return _.find(projects, { id: args.id });
+        return projects
       },
     },
   },
