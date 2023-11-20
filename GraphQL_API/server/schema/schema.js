@@ -1,4 +1,7 @@
-const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLSchema, GraphQLID, GraphQLList } = require('graphql');
+const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLSchema, GraphQLID, GraphQLList, GraphQLNonNull } = require('graphql');
+const Project = require('../models/project');
+const Task = require('../models/task');
+
 const _ = require('lodash');
 
 // Dummie data 
@@ -54,7 +57,7 @@ const ProjectType = new GraphQLObjectType({
     tasks: {
       type: new GraphQLList(TaskType),
       resolve(parent, args) {
-      return tasks.filter(task => task.projectId === parent.id);
+      return Task.find({ projectId: parent.id });
       }
     }
   })
@@ -67,19 +70,59 @@ const RootQueryType = new GraphQLObjectType({
     tasks: {
       type: new GraphQLList(TaskType),
       resolve(parent, args) {
-        return tasks
+        return Task.find({});
       },
     },
     projects: {
         type: new GraphQLList(ProjectType),
       resolve(parent, args) {
-        return projects
+        return Project.find({});
       },
     },
   },
 });
 
+const Mutation = new GraphQLObjectType({
+  name: 'Mutation',
+  fields: {
+    addProject: {
+      type: ProjectType,
+      args: {
+        title: { type: new GraphQLNonNull(GraphQLString) },
+        weight: { type: new GraphQLNonNull(GraphQLInt) },
+        description: { type: new GraphQLNonNull(GraphQLString) }
+      },
+      resolve(parent, args) {
+        let project = new Project({
+          title: args.title,
+          weight: args.weight,
+          description: args.description
+        });
+        return project.save();
+      }
+    },
+    addTask: {
+      type: TaskType,
+      args: {
+        title: { type: new GraphQLNonNull(GraphQLString) },
+        weight: { type: new GraphQLNonNull(GraphQLInt) },
+        description: { type: new GraphQLNonNull(GraphQLString) },
+        projectId: { type: new GraphQLNonNull(GraphQLID) }
+      },
+      resolve(parent, args) {
+        let task = new Task({
+          title: args.title,
+          weight: args.weight,
+          description: args.description,
+          projectId: args.projectId
+        });
+        return task.save();
+      }
+    }
+  }
+});
+
 // Export your GraphQLSchema with RootQuery
 module.exports = new GraphQLSchema({
-  query: RootQueryType,
+  query: RootQueryType, mutation: Mutation
 });
