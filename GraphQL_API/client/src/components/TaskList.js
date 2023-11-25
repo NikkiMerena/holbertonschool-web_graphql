@@ -1,15 +1,6 @@
 import React from 'react';
-import { gql } from 'apollo-boost';
 import { graphql } from 'react-apollo';
-
-const getTasksQuery = gql`
-  {
-    tasks {
-      id
-      title
-    }
-  }
-`;
+import { getTasksQuery } from '../queries/queries';
 
 function TaskList(props) {
   function displayTasks() {
