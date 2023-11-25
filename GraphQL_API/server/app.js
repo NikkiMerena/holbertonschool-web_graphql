@@ -1,9 +1,14 @@
 const express = require('express');
+const cors = require('cors');
 const {graphqlHTTP} = require('express-graphql');
 const schema = require('./schema/schema');
 const mongoose = require('mongoose');
 
+
 const app = express();
+
+// Enable CORS for all routes
+app.use(cors());
 
 app.use('/graphql',graphqlHTTP({
     schema,
