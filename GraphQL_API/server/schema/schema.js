@@ -1,10 +1,10 @@
 const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLSchema, GraphQLID, GraphQLList, GraphQLNonNull } = require('graphql');
-const Project = require('../models/project');
-const Task = require('../models/task');
+const Project = require('./models/project');
+const Task = require('./models/task');
 
 const _ = require('lodash');
 
-// Dummie data 
+// Dummie data
 
 // Create an array of tasks
 
